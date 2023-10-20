@@ -5,6 +5,10 @@ set -ex
 TEMPDIR=$(mktemp -d)
 trap 'rm -rf "$TEMPDIR"' SIGINT SIGTERM ERR EXIT
 
+if [[ -z "${INPUT_FILEPATH// }" ]]; then
+   exit 1
+fi
+
 # https://weblog.west-wind.com/posts/2023/Jan/05/Fix-that-damn-Git-Unsafe-Repository
 git config --global --add safe.directory "$TEMPDIR"
 
