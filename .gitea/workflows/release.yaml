@@ -1,0 +1,27 @@
+name: Release and post own wiki
+on:
+  push:
+    branches: "main"
+    paths-ignore:
+      - LICENSE
+      - README.md
+  pull_request:
+    paths-ignore:
+      - wiki/**
+      - LICENSE
+      - README.md
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - id: post
+        uses: ./
+
+      - shell: bash
+        run: '[[ $OUTPUT_WIKI_URL == ${{ github.server_url }}/${{ gitea.repository }}/wiki ]]'
+        env:
+          OUTPUT_WIKI_URL: ${{ steps.post.outputs.wikiUrl }}

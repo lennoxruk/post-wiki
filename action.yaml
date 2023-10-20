@@ -1,0 +1,38 @@
+name: Post to Gitea wiki
+description: 🚀 Gitea Action to publish files to a Gitea wiki
+
+inputs:
+  filepath:
+    description:
+      Path of the folder containing the wiki files to be deployed
+      Defaults to the wiki/ folder
+    default: wiki
+
+  userName:
+    description:
+      User name of git user for commit
+    default: wiki.bot
+
+  userEmail:
+    description:
+      User email of git user for commit
+    default: wiki.bot@noreply.com
+
+outputs:
+  wikiUrl:
+    description:
+      URL of the published Gitea wiki
+    value: ${{ steps.main.outputs.wikiUrl }}
+
+runs:
+  using: composite
+  steps:
+    - id: post
+      shell: bash
+      run: bash "$GITHUB_ACTION_PATH/post-wiki.sh"
+      env:
+        INPUT_GITEA_SERVER_URL: ${{ github.server_url }}
+        INPUT_REPOSITORY: ${{ gitea.repository }}
+        INPUT_FILEPATH: ${{ inputs.filepath }}
+        INPUT_USERNAME: ${{ inputs.userName }}
+        INPUT_USEREMAIL: ${{ inputs.userEmail }}
