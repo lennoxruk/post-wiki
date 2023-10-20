@@ -15,7 +15,7 @@ git clone "$PROTO$INPUT_TOKEN@$URL/$INPUT_REPOSITORY.wiki.git" "$tmp_dir"
 
 # Hidden files (like .myfile.txt, .git/, or .gitignore) are NOT copied.
 rm -rf "${tmp_dir:?}"/*
-cp -afv "$INPUT_PATH"/* "$tmp_dir/"
+cp -afv "$INPUT_FILEPATH"/* "$tmp_dir/"
 
 cd "$tmp_dir"
 
