@@ -18,6 +18,11 @@ inputs:
       User email of git user for commit
     default: wiki.bot@noreply.com
 
+  token:
+    description:
+      Access token used to fetch the repository
+    default: ${{ github.token }}
+
 outputs:
   wikiUrl:
     description:
@@ -36,3 +41,4 @@ runs:
         INPUT_FILEPATH: ${{ inputs.filepath }}
         INPUT_USERNAME: ${{ inputs.userName }}
         INPUT_USEREMAIL: ${{ inputs.userEmail }}
+        INPUT_TOKEN: ${{ inputs.token }}
