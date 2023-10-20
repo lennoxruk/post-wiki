@@ -10,18 +10,18 @@ inputs:
 
   userName:
     description:
-      User name of git user for commit
+      Git user name of commit
     default: wiki.bot
 
   userEmail:
     description:
-      User email of git user for commit
+      Git user email of commit
     default: wiki.bot@noreply.com
 
-  token:
+  commitMessage:
     description:
-      Access token used to fetch the repository
-    default: ${{ github.token }}
+      Git commit message
+    default: Publish wiki
 
 outputs:
   wikiUrl:
@@ -39,6 +39,7 @@ runs:
         INPUT_GITEA_SERVER_URL: ${{ github.server_url }}
         INPUT_REPOSITORY: ${{ gitea.repository }}
         INPUT_FILEPATH: ${{ inputs.filepath }}
-        INPUT_USERNAME: ${{ inputs.userName }}
-        INPUT_USEREMAIL: ${{ inputs.userEmail }}
-        INPUT_TOKEN: ${{ inputs.token }}
+        INPUT_GIT_USER_NAME: ${{ inputs.userName }}
+        INPUT_GIT_USER_EMAIL: ${{ inputs.userEmail }}
+        INPUT_GIT_COMMIT_MSG: ${{ inputs.commitMessage }}
+        INPUT_TOKEN: ${{ github.token }}

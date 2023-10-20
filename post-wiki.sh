@@ -2,28 +2,28 @@
 set -ex
 
 # https://betterdev.blog/minimal-safe-bash-script-template/
-tmp_dir=$(mktemp -d)
-trap 'rm -rf "$tmp_dir"' SIGINT SIGTERM ERR EXIT
+TEMPDIR=$(mktemp -d)
+trap 'rm -rf "$TEMPDIR"' SIGINT SIGTERM ERR EXIT
 
 # https://weblog.west-wind.com/posts/2023/Jan/05/Fix-that-damn-Git-Unsafe-Repository
-git config --global --add safe.directory "$tmp_dir"
+git config --global --add safe.directory "$TEMPDIR"
 
 PROTO="`echo $INPUT_GITEA_SERVER_URL | grep '://' | sed -e's,^\(.*://\).*,\1,g'`"
 URL=`echo $INPUT_GITEA_SERVER_URL | sed -e s,$PROTO,,g`
 
-git clone "$PROTO$INPUT_TOKEN@$URL/$INPUT_REPOSITORY.wiki.git" "$tmp_dir"
+git clone "$PROTO$INPUT_TOKEN@$URL/$INPUT_REPOSITORY.wiki.git" "$TEMPDIR"
 
 # Hidden files (like .myfile.txt, .git/, or .gitignore) are NOT copied.
-rm -rf "${tmp_dir:?}"/*
-cp -afv "$INPUT_FILEPATH"/* "$tmp_dir/"
+rm -rf "${TEMPDIR:?}"/*
+cp -afv "$INPUT_FILEPATH"/* "$TEMPDIR/"
 
-cd "$tmp_dir"
+cd "$TEMPDIR"
 
-git config user.name "$INPUT_USERNAME"
-git config user.email "$INPUT_USEREMAIL"
+git config user.name "$INPUT_GIT_USER_NAME"
+git config user.email "$INPUT_GIT_USER_EMAIL"
 
 git add -Av
-git commit --allow-empty -m 'Deploy wiki'
+git commit --allow-empty -m "'$INPUT_GIT_COMMIT_MSG'"
 
 git push origin master
 
