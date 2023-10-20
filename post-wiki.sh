@@ -9,9 +9,9 @@ trap 'rm -rf "$tmp_dir"' SIGINT SIGTERM ERR EXIT
 git config --global --add safe.directory "$tmp_dir"
 
 PROTO="`echo $INPUT_GITEA_SERVER_URL | grep '://' | sed -e's,^\(.*://\).*,\1,g'`"
-URL=`echo $INPUT_GITEA_SERVER_URL | sed -e s,$proto,,g`
+URL=`echo $INPUT_GITEA_SERVER_URL | sed -e s,$PROTO,,g`
 
-git clone "$PROTO$INPUT_TOKEN$URL/$INPUT_REPOSITORY.wiki.git" "$tmp_dir"
+git clone "$PROTO$INPUT_TOKEN@$URL/$INPUT_REPOSITORY.wiki.git" "$tmp_dir"
 
 # Hidden files (like .myfile.txt, .git/, or .gitignore) are NOT copied.
 rm -rf "${tmp_dir:?}"/*
