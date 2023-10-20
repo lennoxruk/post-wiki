@@ -16,12 +16,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout action code
+        uses: actions/checkout@v3
 
-      - id: post
+      - name: Invoke default action
+        id: post
         uses: ./
 
-      - shell: bash
+      - name: Verify wiki url
+        shell: bash
         run: '[[ $OUTPUT_WIKI_URL == ${{ github.server_url }}/${{ gitea.repository }}/wiki ]]'
         env:
           OUTPUT_WIKI_URL: ${{ steps.post.outputs.wikiUrl }}

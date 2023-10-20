@@ -10,17 +10,17 @@ inputs:
 
   userName:
     description:
-      Git user name of commit
+      Git user name of wiki commit
     default: wiki.bot
 
   userEmail:
     description:
-      Git user email of commit
+      Git user email of wiki commit
     default: wiki.bot@noreply.com
 
   commitMessage:
     description:
-      Git commit message
+      Wiki repository commit message
     default: Publish wiki
 
 outputs:
