@@ -31,7 +31,7 @@ jobs:
 
       - name: Invoke post-wiki action
         id: postWiki
-        uses: lennoxruk/post-wiki
+        uses: lennoxruk/post-wiki@v1
 
       - name: Show wiki url
         run: echo '🍏 Wiki URL is ${{ steps.postWiki.outputs.wikiUrl }}'
@@ -57,11 +57,11 @@ jobs:
       - name: Some task to generate wiki file
         run: |
           mkdir docs
-          echo "Hello"
+          echo "Hello" | tee Hello.md
 
       - name: Invoke post-wiki action
         id: postWiki
-        uses: lennoxruk/post-wiki
+        uses: lennoxruk/post-wiki@v1
         with:
           wikiPath: docs
           userName: test
