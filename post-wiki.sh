@@ -41,4 +41,4 @@ git commit --allow-empty -m "'$INPUT_GIT_COMMIT_MSG'"
 
 git push origin master
 
-echo "wikiUrl=$INPUT_GITEA_WIKI_REPO_URL/$INPUT_REPOSITORY/wiki" >> "$GITHUB_OUTPUT"
+echo "wikiUrl=$INPUT_GITEA_SERVER_URL/$INPUT_REPOSITORY/wiki" >> "$GITHUB_OUTPUT"
