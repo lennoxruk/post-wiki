@@ -20,11 +20,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Invoke default action
-        id: post
+        id: postWiki
         uses: ./
 
       - name: Verify wiki url
         shell: bash
         run: '[[ $OUTPUT_WIKI_URL == ${{ github.server_url }}/${{ gitea.repository }}/wiki ]]'
         env:
-          OUTPUT_WIKI_URL: ${{ steps.post.outputs.wikiUrl }}
+          OUTPUT_WIKI_URL: ${{ steps.postWiki.outputs.wikiUrl }}

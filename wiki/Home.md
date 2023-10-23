@@ -1,3 +1,7 @@
-# post-wiki action
+# post-wiki action wiki
 
-This is the wiki for the post-wiki action which can post files to Gitea wiki during a workflow.
+![made with](made-with.svg)
+
+This wiki was created with post-wiki action.
+
+[Say hello](HelloWorld.md)
