@@ -31,7 +31,7 @@ jobs:
 
       - name: Invoke post-wiki action
         id: postWiki
-        uses: lennoxruk/post-wiki@v1
+        uses: https://gitea.com/lennoxruk/post-wiki@v1
 
       - name: Show wiki url
         run: echo '🍏 Wiki URL is ${{ steps.postWiki.outputs.wikiUrl }}'
@@ -61,7 +61,7 @@ jobs:
 
       - name: Invoke post-wiki action
         id: postWiki
-        uses: lennoxruk/post-wiki@v1
+        uses: https://gitea.com/lennoxruk/post-wiki@v1
         with:
           wikiPath: docs
           userName: test
