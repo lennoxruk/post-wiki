@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 
-local tempWikiRepoPath=$(mktemp -d)
+tempWikiRepoPath=$(mktemp -d)
 trap 'rm -rf "$tempWikiRepoPath"' SIGINT SIGTERM ERR EXIT
 
 if [[ -z "$INPUT_WIKI_PATH" ]]; then
@@ -15,8 +15,6 @@ if [[ -z "$INPUT_GITEA_SERVER_URL" ]]; then
 fi
 
 git config --global --add safe.directory "$tempWikiRepoPath"
-
-local serverUrl=
 
 if [[ -n "$INPUT_TOKEN" ]]; then
   local protocolPart="`echo $INPUT_GITEA_SERVER_URL | grep '://' | sed -e's,^\(.*://\).*,\1,g'`"
