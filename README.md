@@ -1,5 +1,85 @@
 # Post to Wiki
 
-Workflow action to publish files to a Gitea repository Wiki.
+Gitea action to publish and replace files in a Gitea repository Wiki. Purpose of writing is for auto generation of a documentation Wiki in a workflow.
 
-Wiki must be created before this action is executed.
+This action can only manipulate the Wiki of the Gitea repository from which it is been run. The Wiki must exist before this action is executed.
+
+## How to use
+
+This action deploys the content found in the specified `wikiPath` to the Gitea repository's Wiki. `wiki` is the default path if not specified. All existing content is replaced.
+
+### Example 1
+
+This will post all files found in the repository's wiki folder. The commit will be from user/email: _wiki.bot/wiki.bot@noreply.com_
+
+```yaml
+on:
+  push:
+    branches: "main"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo code
+        uses: actions/checkout@v3
+
+      #- name: DO SOME TASK TO GENERATE THE WIKI FILES
+
+      - name: Invoke post-wiki action
+        uses: lennoxruk/post-wiki
+```
+
+### Example 2
+
+This will post all files found in the repository's docs folder. The commit will be from user/email: _test/test@noreply.com_ and commit message will be _auto publish test_.
+
+```yaml
+on:
+  push:
+    branches: "main"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo code
+        uses: actions/checkout@v3
+
+      - name: Some task to generate wiki file
+        run: |
+          mkdir docs
+          echo "Hello"
+
+      - name: Invoke post-wiki action
+        uses: lennoxruk/post-wiki
+        with:
+          wikiPath: docs
+          userName: test
+          userEmail: test@noreply.com
+          commitMessage: auto publish test
+```
+
+## Inputs
+
+- **`wikiPath`:** Path of the folder containing the wiki files to be deployed, default _wiki_
+
+- **`userName`:** Git user name of wiki commit, default _wiki.bot_
+
+- **`userEmail`:** Git user email of wiki commit, default _wiki.bot@noreply.com_
+
+- **`commitMessage`:** Wiki repository commit message, default _Auto Publish Wiki_
+
+## Outputs
+
+- **`wikiUrl`:** URL of the repository wiki
+
+## Background
+
+Many thanks to the author of the [deploy-wiki](https://github.com/actions4gh/deploy-wiki) Github action, which provided inspiration for this Gitea action.
+
+The general logic of the original action was preserved but I needed a way of authenticating access to the Gitea wiki repository as the Github method does not work with Gitea. Through experimentation, I found that the token available in the act runner, `${{ github.token }}`, provided a temporary token to access the repository and the repository wiki. This token is inserted into the wiki URL for authenticated read/write access to the wiki repository.
+
+Reduced the functionality so the action can only change the wiki of the repository from which the action is run. Reason is to reduce the security issues of providing input tokens which allow access to different repositories.
