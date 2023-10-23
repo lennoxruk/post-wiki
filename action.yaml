@@ -2,10 +2,9 @@ name: Post to Gitea wiki
 description: 🚀 Gitea Action to publish files to a Gitea wiki
 
 inputs:
-  filepath:
+  wikiPath:
     description:
       Path of the folder containing the wiki files to be deployed
-      Defaults to the wiki/ folder
     default: wiki
 
   userName:
@@ -21,12 +20,12 @@ inputs:
   commitMessage:
     description:
       Wiki repository commit message
-    default: Publish wiki
+    default: Auto Publish Wiki
 
 outputs:
   wikiUrl:
     description:
-      URL of the published Gitea wiki
+      URL of the repository wiki
     value: ${{ steps.main.outputs.wikiUrl }}
 
 runs:
@@ -38,7 +37,7 @@ runs:
       env:
         INPUT_GITEA_SERVER_URL: ${{ github.server_url }}
         INPUT_REPOSITORY: ${{ gitea.repository }}
-        INPUT_FILEPATH: ${{ inputs.filepath }}
+        INPUT_WIKI_PATH: ${{ inputs.wikiPath }}
         INPUT_GIT_USER_NAME: ${{ inputs.userName }}
         INPUT_GIT_USER_EMAIL: ${{ inputs.userEmail }}
         INPUT_GIT_COMMIT_MSG: ${{ inputs.commitMessage }}

@@ -1,27 +1,39 @@
 #!/bin/bash
 set -ex
 
-# https://betterdev.blog/minimal-safe-bash-script-template/
-TEMPDIR=$(mktemp -d)
-trap 'rm -rf "$TEMPDIR"' SIGINT SIGTERM ERR EXIT
+local tempWikiRepoPath=$(mktemp -d)
+trap 'rm -rf "$tempWikiRepoPath"' SIGINT SIGTERM ERR EXIT
 
-if [[ -z "${INPUT_FILEPATH// }" ]]; then
-   exit 1
+if [[ -z "$INPUT_WIKI_PATH" ]]; then
+  echo "No file path"
+  exit 0
 fi
 
-# https://weblog.west-wind.com/posts/2023/Jan/05/Fix-that-damn-Git-Unsafe-Repository
-git config --global --add safe.directory "$TEMPDIR"
+if [[ -z "$INPUT_GITEA_SERVER_URL" ]]; then
+  echo "No server URL"
+  exit 0
+fi
 
-PROTO="`echo $INPUT_GITEA_SERVER_URL | grep '://' | sed -e's,^\(.*://\).*,\1,g'`"
-URL=`echo $INPUT_GITEA_SERVER_URL | sed -e s,$PROTO,,g`
+git config --global --add safe.directory "$tempWikiRepoPath"
 
-git clone "$PROTO$INPUT_TOKEN@$URL/$INPUT_REPOSITORY.wiki.git" "$TEMPDIR"
+local serverUrl=
 
-# Hidden files (like .myfile.txt, .git/, or .gitignore) are NOT copied.
-rm -rf "${TEMPDIR:?}"/*
-cp -afv "$INPUT_FILEPATH"/* "$TEMPDIR/"
+if [[ -n "$INPUT_TOKEN" ]]; then
+  local protocolPart="`echo $INPUT_GITEA_SERVER_URL | grep '://' | sed -e's,^\(.*://\).*,\1,g'`"
+  local urlPart=`echo $INPUT_GITEA_SERVER_URL | sed -e s,$protocolPart,,g`
+  serverUrl=$protocolPart$INPUT_TOKEN@$urlPart
+else
+  serverUrl=$INPUT_GITEA_SERVER_URL
+fi
 
-cd "$TEMPDIR"
+git clone "$serverUrl/$INPUT_REPOSITORY.wiki.git" "$tempWikiRepoPath"
+
+# clean existing files preserving .git and any hidden files
+rm -rf "${tempWikiRepoPath:?}"/*
+# copy new files
+cp -afv "$INPUT_WIKI_PATH"/* "$tempWikiRepoPath/"
+
+cd "$tempWikiRepoPath"
 
 git config user.name "$INPUT_GIT_USER_NAME"
 git config user.email "$INPUT_GIT_USER_EMAIL"
@@ -31,4 +43,4 @@ git commit --allow-empty -m "'$INPUT_GIT_COMMIT_MSG'"
 
 git push origin master
 
-echo "wikiUrl=$INPUT_GITEA_SERVER_URL/$INPUT_REPOSITORY/wiki" >> "$GITHUB_OUTPUT"
+echo "wikiUrl=$INPUT_GITEA_WIKI_REPO_URL/$INPUT_REPOSITORY/wiki" >> "$GITHUB_OUTPUT"
