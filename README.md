@@ -1,12 +1,14 @@
 # Post to Wiki
 
-Gitea action to publish and replace files in a Gitea repository Wiki. Purpose of writing is for auto generation of a documentation Wiki in a workflow.
+![version](version.svg)
 
-This action can only manipulate the Wiki of the Gitea repository from which it is been run. The Wiki must exist before this action is executed.
+Gitea action to publish and replace files in a Gitea repository wiki. Purpose of writing is for auto generation of a documentation wiki in a workflow.
+
+This action can only manipulate the wiki of the Gitea repository from which it is been run. The wiki must exist before this action is executed.
 
 ## How to use
 
-This action deploys the content found in the specified `wikiPath` to the Gitea repository's Wiki. `wiki` is the default path if not specified. All existing content is replaced.
+This action deploys the content found in the specified `wikiPath` to the Gitea repository's wiki. `wiki` is the default path if not specified. All existing wiki content is replaced.
 
 ### Example 1
 
@@ -28,7 +30,11 @@ jobs:
       #- name: DO SOME TASK TO GENERATE THE WIKI FILES
 
       - name: Invoke post-wiki action
+        id: postWiki
         uses: lennoxruk/post-wiki
+
+      - name: Show wiki url
+        run: echo '🍏 Wiki URL is ${{ steps.postWiki.outputs.wikiUrl }}'
 ```
 
 ### Example 2
@@ -54,12 +60,16 @@ jobs:
           echo "Hello"
 
       - name: Invoke post-wiki action
+        id: postWiki
         uses: lennoxruk/post-wiki
         with:
           wikiPath: docs
           userName: test
           userEmail: test@noreply.com
           commitMessage: auto publish test
+
+      - name: Show wiki url
+        run: echo '🍏 Wiki URL is ${{ steps.postWiki.outputs.wikiUrl }}'
 ```
 
 ## Inputs
@@ -80,6 +90,6 @@ jobs:
 
 Many thanks to the author of the [deploy-wiki](https://github.com/actions4gh/deploy-wiki) Github action, which provided inspiration for this Gitea action.
 
-The general logic of the original action was preserved but I needed a way of authenticating access to the Gitea wiki repository as the Github method does not work with Gitea. Through experimentation, I found that the token available in the act runner, `${{ github.token }}`, provided a temporary token to access the repository and the repository wiki. This token is inserted into the wiki URL for authenticated read/write access to the wiki repository.
+The general logic of the original action was preserved but needed a way of authenticating access to the Gitea wiki repository as the Github method does not work with Gitea. Through experimentation, I found that the token available in the act runner, `${{ github.token }}`, provided a temporary token to access the repository and the wiki repository. This token is inserted into the wiki URL for authenticated read/write access to the wiki repository.
 
 Reduced the functionality so the action can only change the wiki of the repository from which the action is run. Reason is to reduce the security issues of providing input tokens which allow access to different repositories.
