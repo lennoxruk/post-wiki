@@ -17,8 +17,8 @@ fi
 git config --global --add safe.directory "$tempWikiRepoPath"
 
 if [[ -n "$INPUT_TOKEN" ]]; then
-  local protocolPart="`echo $INPUT_GITEA_SERVER_URL | grep '://' | sed -e's,^\(.*://\).*,\1,g'`"
-  local urlPart=`echo $INPUT_GITEA_SERVER_URL | sed -e s,$protocolPart,,g`
+  protocolPart="`echo $INPUT_GITEA_SERVER_URL | grep '://' | sed -e's,^\(.*://\).*,\1,g'`"
+  urlPart=`echo $INPUT_GITEA_SERVER_URL | sed -e s,$protocolPart,,g`
   serverUrl=$protocolPart$INPUT_TOKEN@$urlPart
 else
   serverUrl=$INPUT_GITEA_SERVER_URL
