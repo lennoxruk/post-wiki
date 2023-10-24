@@ -37,7 +37,7 @@ git config user.name "$INPUT_GIT_USER_NAME"
 git config user.email "$INPUT_GIT_USER_EMAIL"
 
 git add -Av
-git commit --allow-empty -m "'$INPUT_GIT_COMMIT_MSG'"
+git commit --allow-empty -m "$INPUT_GIT_COMMIT_MSG"
 
 git push origin master
 
