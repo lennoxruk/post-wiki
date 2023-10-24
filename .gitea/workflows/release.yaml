@@ -21,8 +21,9 @@ jobs:
 
       - name: Verify wiki url
         shell: bash
-        run: |
-          '[[ $OUTPUT_WIKI_URL == ${{ github.server_url }}/${{ gitea.repository }}/wiki ]]'
-          echo '🎉 Wiki URL: ${{ steps.postWiki.outputs.wikiUrl }}'
+        run: '[[ $OUTPUT_WIKI_URL == ${{ github.server_url }}/${{ gitea.repository }}/wiki ]]'
         env:
           OUTPUT_WIKI_URL: ${{ steps.postWiki.outputs.wikiUrl }}
+
+      - name: Show wiki url
+        run: echo '🍏 Wiki URL is ${{ steps.postWiki.outputs.wikiUrl }}'
