@@ -1,4 +1,4 @@
-# Post to Wiki
+# Post Wiki Gitea Action
 
 ![version](version.svg)
 
@@ -17,7 +17,8 @@ This will post all files found in the repository's wiki folder. The commit will 
 ```yaml
 on:
   push:
-    branches: "main"
+    branches:
+      - main
 
 jobs:
   release:
@@ -25,7 +26,7 @@ jobs:
 
     steps:
       - name: Checkout repo code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       #- name: DO SOME TASK TO GENERATE THE WIKI FILES
 
@@ -44,7 +45,8 @@ This will post all files found in the repository's docs folder. The commit will 
 ```yaml
 on:
   push:
-    branches: "main"
+    branches:
+      - main
 
 jobs:
   release:
@@ -52,12 +54,12 @@ jobs:
 
     steps:
       - name: Checkout repo code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Some task to generate wiki file
         run: |
           mkdir docs
-          echo "Hello" | tee Hello.md
+          echo "Hello" | tee docs/Hello.md
 
       - name: Invoke post-wiki action
         id: postWiki

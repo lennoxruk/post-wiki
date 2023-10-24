@@ -1,13 +1,9 @@
 name: Release and post own wiki
 on:
   push:
-    branches: "main"
+    branches:
+      - main
     paths-ignore:
-      - LICENSE
-      - README.md
-  pull_request:
-    paths-ignore:
-      - wiki/**
       - LICENSE
       - README.md
 
@@ -17,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout action code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Invoke default action
         id: postWiki
@@ -25,6 +21,8 @@ jobs:
 
       - name: Verify wiki url
         shell: bash
-        run: '[[ $OUTPUT_WIKI_URL == ${{ github.server_url }}/${{ gitea.repository }}/wiki ]]'
+        run: |
+          '[[ $OUTPUT_WIKI_URL == ${{ github.server_url }}/${{ gitea.repository }}/wiki ]]'
+          echo '🎉 Wiki URL: ${{ steps.postWiki.outputs.wikiUrl }}'
         env:
           OUTPUT_WIKI_URL: ${{ steps.postWiki.outputs.wikiUrl }}
