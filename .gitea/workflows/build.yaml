@@ -1,4 +1,4 @@
-name: Release and post own wiki
+name: Build and post own wiki
 on:
   push:
     branches:
