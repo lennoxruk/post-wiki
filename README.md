@@ -32,7 +32,7 @@ jobs:
 
       - name: Invoke post-wiki action
         id: postWiki
-        uses: lennoxruk/post-wiki@v1
+        uses: lennoxruk/post-wiki@v1.4
 
       - name: Show wiki url
         run: echo '🍏 Wiki URL is ${{ steps.postWiki.outputs.wikiUrl }}'
@@ -63,7 +63,7 @@ jobs:
 
       - name: Invoke post-wiki action
         id: postWiki
-        uses: lennoxruk/post-wiki@v1
+        uses: lennoxruk/post-wiki@v1.4
         with:
           wikiPath: docs
           userName: test
@@ -90,8 +90,8 @@ jobs:
 
 ## Background
 
-Many thanks to the author of the [deploy-wiki](https://github.com/actions4gh/deploy-wiki) Github action, which provided inspiration for this Gitea action.
+Many thanks to the author of the [deploy-wiki](https://github.com/actions4gh/deploy-wiki) Github action, which provided direction for this Gitea action.
 
 The general logic of the original action was preserved but needed a way of authenticating access to the Gitea wiki repository as the Github method does not work with Gitea. Through experimentation, I found that the token available in the act runner, `${{ github.token }}`, provided a temporary token to access the repository and the wiki repository. This token is inserted into the wiki URL for authenticated read/write access to the wiki repository.
 
-Reduced the functionality so the action can only change the wiki of the repository from which the action is run. Reason is to reduce the security issues of providing input tokens which allow access to different repositories.
+Reduced the original functionality so the action can only change the wiki of the repository from which the action is run. Reason is to reduce the security issues of providing input tokens which allow access to different repositories.
