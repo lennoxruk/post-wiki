@@ -5,13 +5,13 @@ tempWikiRepoPath=$(mktemp -d)
 trap 'rm -rf "$tempWikiRepoPath"' SIGINT SIGTERM ERR EXIT
 
 if [[ -z "$INPUT_WIKI_PATH" ]]; then
-  echo "No file path"
-  exit 0
+  echo "No wiki file path given"
+  exit 1
 fi
 
 if [[ -z "$INPUT_GITEA_SERVER_URL" ]]; then
   echo "No server URL"
-  exit 0
+  exit 1
 fi
 
 git config --global --add safe.directory "$tempWikiRepoPath"
