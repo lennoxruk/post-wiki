@@ -55,3 +55,5 @@ if [ "${INPUT_REMOVE_HISTORY-}" = 'true' ]; then
 fi
 
 git push ${forcePush} origin "${branchName}"
+
+echo "wikiUrl=$INPUT_GITEA_SERVER_URL/$INPUT_REPOSITORY/wiki" >> "$GITHUB_OUTPUT"
