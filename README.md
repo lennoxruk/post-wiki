@@ -40,7 +40,7 @@ jobs:
 
 ### Example 2
 
-This will post all files found in the repository's docs folder. The commit will be from user/email: _test/test@noreply.com_ and commit message will be _auto publish test_.
+This will post all files found in the repository's docs folder and remove the wiki repository history. The commit will be from user/email: _test/test@noreply.com_ and commit message will be _auto publish test_.
 
 ```yaml
 on:
@@ -69,6 +69,7 @@ jobs:
           userName: test
           userEmail: test@noreply.com
           commitMessage: auto publish test
+          removeHistory: true
 
       - name: Show wiki url
         run: echo '🍏 Wiki URL is ${{ steps.postWiki.outputs.wikiUrl }}'
