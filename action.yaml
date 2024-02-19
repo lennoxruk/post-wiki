@@ -22,6 +22,11 @@ inputs:
       Wiki repository commit message
     default: Auto Publish Wiki
 
+  removeHistory:
+    description: 
+      Remove wiki history
+    default: 'false'
+
 outputs:
   wikiUrl:
     description:
@@ -41,4 +46,5 @@ runs:
         INPUT_GIT_USER_NAME: ${{ inputs.userName }}
         INPUT_GIT_USER_EMAIL: ${{ inputs.userEmail }}
         INPUT_GIT_COMMIT_MSG: ${{ inputs.commitMessage }}
+        INPUT_REMOVE_HISTORY: ${{ inputs.removeHistory }}
         INPUT_TOKEN: ${{ github.token }}

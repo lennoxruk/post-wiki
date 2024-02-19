@@ -1,8 +1,8 @@
-# Post Wiki Gitea Action
+# Post Wiki Action
 
 ![version](version.svg)
 
-Gitea action to publish and replace files in a Gitea repository wiki. Purpose of writing is for auto generation of a documentation wiki in a workflow.
+Gitea action to publish and replace files in a Gitea repository wiki. Purpose of writing is for auto posting/generation of a documentation wiki in a workflow.
 
 This action can only manipulate the wiki of the Gitea repository from which it is been run. The wiki must exist before this action is executed.
 
@@ -32,7 +32,7 @@ jobs:
 
       - name: Invoke post-wiki action
         id: postWiki
-        uses: lennoxruk/post-wiki@v1.4
+        uses: lennoxruk/post-wiki@v1.5
 
       - name: Show wiki url
         run: echo '🍏 Wiki URL is ${{ steps.postWiki.outputs.wikiUrl }}'
@@ -63,7 +63,7 @@ jobs:
 
       - name: Invoke post-wiki action
         id: postWiki
-        uses: lennoxruk/post-wiki@v1.4
+        uses: lennoxruk/post-wiki@v1.5
         with:
           wikiPath: docs
           userName: test
@@ -73,20 +73,24 @@ jobs:
       - name: Show wiki url
         run: echo '🍏 Wiki URL is ${{ steps.postWiki.outputs.wikiUrl }}'
 ```
-
+<!-- action-docs-inputs -->
 ## Inputs
 
-- **`wikiPath`:** Path of the folder containing the wiki files to be deployed, default _wiki_
-
-- **`userName`:** Git user name of wiki commit, default _wiki.bot_
-
-- **`userEmail`:** Git user email of wiki commit, default _wiki.bot@noreply.com_
-
-- **`commitMessage`:** Wiki repository commit message, default _Auto Publish Wiki_
-
+| parameter     | description                                                 | required | default                |
+|---------------|-------------------------------------------------------------|----------|------------------------|
+| wikiPath      | Path of the folder containing the wiki files to be deployed | `false`  | wiki                   |
+| userName      | Git user name of wiki commit                                | `false`  | wiki.bot               |
+| userEmail     | Git user email of wiki commit                               | `false`  | `wiki.bot@noreply.com` |
+| commitMessage | Wiki repository commit message                              | `false`  | Auto Publish Wiki      |
+| removeHistory | Remove wiki history                                         | `false`  | false                  |
+<!-- action-docs-inputs -->
+<!-- action-docs-outputs -->
 ## Outputs
 
-- **`wikiUrl`:** URL of the repository wiki
+| parameter | description                |
+|-----------|----------------------------|
+| wikiUrl   | URL of the repository wiki |
+<!-- action-docs-outputs -->
 
 ## Background
 
