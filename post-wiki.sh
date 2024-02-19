@@ -54,4 +54,4 @@ if [ "${INPUT_REMOVE_HISTORY-}" = 'true' ]; then
   git branch -m "${branchName}"
 fi
 
-git push "${forcePush-}" origin "${branchName}"
+git push ${forcePush} origin "${branchName}"
