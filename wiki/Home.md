@@ -1,7 +1,7 @@
-# post-wiki action wiki
+# PostWiki Action Wiki
 
 ![made with](made-with.svg)
 
-This wiki was created with post-wiki action.
+Simple example.
 
-[Say hello](HelloWorld.md)
+[Say hello](HelloWorld)
